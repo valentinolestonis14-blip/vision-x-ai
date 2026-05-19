@@ -1,12 +1,17 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VISION-X AI | Premium Video Enhancement</title>
+  <title>VISION-X AI — AI Video Enhancement</title>
 
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -23,23 +28,22 @@
     }
 
     .glass{
-      background:rgba(255,255,255,0.05);
-      backdrop-filter:blur(20px);
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 0 40px rgba(0,212,255,0.08);
-    }
-
-    .hero-bg{
-      background:
-      radial-gradient(circle at top left, rgba(0,212,255,.18), transparent 25%),
-      radial-gradient(circle at bottom right, rgba(127,90,240,.18), transparent 25%),
-      #050816;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(18px);
     }
 
     .gradient-text{
       background:linear-gradient(to right,#00D4FF,#7F5AF0,#6C63FF);
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
+    }
+
+    .hero-bg{
+      background:
+      radial-gradient(circle at top left,rgba(0,212,255,.18),transparent 25%),
+      radial-gradient(circle at bottom right,rgba(127,90,240,.18),transparent 25%),
+      #050816;
     }
 
     .glow-btn{
@@ -50,8 +54,8 @@
     .glow-btn:hover{
       transform:translateY(-4px);
       box-shadow:
-      0 0 20px rgba(0,212,255,.5),
-      0 0 50px rgba(127,90,240,.4);
+      0 0 20px rgba(0,212,255,.6),
+      0 0 40px rgba(127,90,240,.5);
     }
 
     .floating{
@@ -63,20 +67,19 @@
         transform:translateY(0px);
       }
       50%{
-        transform:translateY(-12px);
+        transform:translateY(-10px);
       }
     }
 
     .scan-line{
       position:absolute;
-      top:0;
       left:0;
       width:100%;
       height:5px;
       background:linear-gradient(90deg,#00D4FF,#7F5AF0);
-      box-shadow:0 0 30px #00D4FF;
-      animation:scanMove 2.5s linear infinite;
-      z-index:4;
+      box-shadow:0 0 20px #00D4FF;
+      animation:scanMove 2s linear infinite;
+      z-index:10;
     }
 
     @keyframes scanMove{
@@ -91,37 +94,23 @@
     .face-box{
       position:absolute;
       border:2px solid #00D4FF;
-      box-shadow:0 0 15px #00D4FF;
-      border-radius:10px;
+      box-shadow:0 0 20px #00D4FF;
+      border-radius:12px;
       z-index:5;
     }
 
     .body-box{
       position:absolute;
       border:2px solid #7F5AF0;
-      box-shadow:0 0 20px #7F5AF0;
-      border-radius:15px;
+      box-shadow:0 0 25px #7F5AF0;
+      border-radius:16px;
       z-index:4;
     }
 
-    .freeze-overlay{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      backdrop-filter:blur(4px);
-      z-index:10;
-      opacity:0;
-      pointer-events:none;
-      transition:.5s;
-    }
-
-    .freeze-overlay.active{
-      opacity:1;
-      pointer-events:auto;
+    .status-glow{
+      box-shadow:
+      0 0 20px rgba(0,212,255,.25),
+      inset 0 0 20px rgba(255,255,255,.03);
     }
 
     .comparison-divider{
@@ -131,41 +120,16 @@
       width:4px;
       height:100%;
       background:#00D4FF;
-      z-index:20;
-      box-shadow:0 0 20px #00D4FF;
+      z-index:5;
+      box-shadow:0 0 25px #00D4FF;
     }
 
     .before-side{
       position:absolute;
-      top:0;
-      left:0;
+      inset:0;
       width:50%;
       overflow:hidden;
-      height:100%;
       z-index:2;
-    }
-
-    .before-label,
-    .after-label{
-      position:absolute;
-      top:15px;
-      padding:8px 16px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:bold;
-      z-index:30;
-    }
-
-    .before-label{
-      left:15px;
-      background:#111827;
-      border:1px solid rgba(255,255,255,.1);
-    }
-
-    .after-label{
-      right:15px;
-      background:linear-gradient(90deg,#00D4FF,#7F5AF0);
-      color:black;
     }
 
     .particles{
@@ -180,10 +144,10 @@
       border-radius:50%;
       background:#00D4FF;
       opacity:.3;
-      animation:particleMove linear infinite;
+      animation:particle linear infinite;
     }
 
-    @keyframes particleMove{
+    @keyframes particle{
       from{
         transform:translateY(100vh);
       }
@@ -192,18 +156,52 @@
       }
     }
 
+    .enhanced-video{
+      filter:
+      brightness(1.12)
+      contrast(1.28)
+      saturate(1.22)
+      sharpen(2);
+    }
+
+    .before-video{
+      filter:
+      blur(2px)
+      brightness(.7)
+      contrast(.8);
+    }
+
+    .pulse{
+      animation:pulse 1.5s infinite;
+    }
+
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.05);
+      }
+      100%{
+        transform:scale(1);
+      }
+    }
+
   </style>
 </head>
 <body>
 
+<!-- PARTICLES -->
 <div class="particles" id="particles"></div>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <nav class="fixed top-0 w-full z-50 backdrop-blur-xl border-b border-white/10 bg-black/20">
+
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500"></div>
+
       <h1 class="text-2xl font-black gradient-text">
         VISION-X AI
       </h1>
@@ -211,16 +209,17 @@
 
     <div class="hidden md:flex gap-8 text-sm">
       <a href="#">Features</a>
-      <a href="#">AI System</a>
-      <a href="#">Pricing</a>
+      <a href="#">Enhancement</a>
+      <a href="#">AI Detection</a>
       <a href="#">Security</a>
     </div>
 
     <button class="glow-btn px-6 py-3 rounded-2xl font-bold">
-      Start Now
+      Start AI Scan
     </button>
 
   </div>
+
 </nav>
 
 <!-- HERO -->
@@ -232,30 +231,37 @@
     <div>
 
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+
         <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+
         AI Powered CCTV Enhancement
+
       </div>
 
       <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
-        Turn
+
+        Transform
         <span class="gradient-text">
           Blurry Footage
         </span>
-        Into Clear Detection
+        Into Clear Results
+
       </h1>
 
       <p class="text-gray-400 text-lg leading-relaxed mb-10 max-w-xl">
-        Upload unclear CCTV videos and use AI enhancement technology to improve visibility, sharpen details, reduce noise, and assist review workflows.
+
+        Upload unclear videos and use advanced AI enhancement to sharpen faces, improve body visibility, recover details, and create clearer review results.
+
       </p>
 
       <div class="flex flex-wrap gap-5">
 
-        <button class="glow-btn px-8 py-4 rounded-2xl font-bold">
+        <button class="glow-btn px-8 py-4 rounded-2xl font-bold pulse">
           Upload Video
         </button>
 
         <button class="glass px-8 py-4 rounded-2xl">
-          Live Demo
+          Watch Demo
         </button>
 
       </div>
@@ -265,33 +271,36 @@
     <!-- RIGHT -->
     <div class="relative floating">
 
-      <div class="glass rounded-[35px] p-5 relative overflow-hidden">
+      <div class="glass rounded-[35px] p-5 overflow-hidden relative">
 
         <div class="scan-line"></div>
 
-        <div class="flex justify-between items-center mb-5">
+        <div class="flex items-center justify-between mb-5">
+
           <div>
             <h2 class="text-2xl font-bold">
-              Neural AI Scanner
+              AI Neural Scanner
             </h2>
+
             <p class="text-gray-400 text-sm">
-              Live enhancement preview
+              Real-time enhancement preview
             </p>
           </div>
 
           <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+
         </div>
 
         <img
           src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop"
-          class="rounded-3xl h-[430px] w-full object-cover"
+          class="rounded-3xl h-[450px] w-full object-cover"
         >
 
         <!-- FACE -->
-        <div class="face-box w-24 h-24 top-[120px] left-[170px]"></div>
+        <div class="face-box w-28 h-28 top-[115px] left-[190px]"></div>
 
         <!-- BODY -->
-        <div class="body-box w-40 h-60 top-[90px] left-[135px]"></div>
+        <div class="body-box w-44 h-72 top-[80px] left-[160px]"></div>
 
       </div>
 
@@ -301,7 +310,7 @@
 
 </section>
 
-<!-- ADVANCED VIDEO ENHANCEMENT -->
+<!-- VIDEO ENHANCEMENT -->
 <section class="py-28 px-6">
 
   <div class="max-w-7xl mx-auto">
@@ -309,25 +318,27 @@
     <div class="text-center mb-20">
 
       <h2 class="text-5xl font-black mb-5">
-        Advanced AI Video Enhancement
+        AI Video Enhancement System
       </h2>
 
       <p class="text-gray-400 max-w-3xl mx-auto">
-        Upload blurry footage, analyze frames, enhance visibility, and freeze important moments for detailed review assistance.
+        Upload blurry footage and instantly generate enhanced video results with improved face and body clarity.
       </p>
 
     </div>
 
-    <!-- UPLOAD -->
+    <!-- UPLOAD AREA -->
     <div class="glass rounded-[40px] p-10">
 
       <div
         id="dropZone"
-        class="border-2 border-dashed border-cyan-500/40 rounded-[30px] p-16 text-center cursor-pointer hover:border-cyan-400 transition"
+        class="border-2 border-dashed border-cyan-500/30 rounded-[30px] p-16 text-center hover:border-cyan-400 transition cursor-pointer"
       >
 
-        <div class="w-24 h-24 rounded-full mx-auto bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center mb-8">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center mb-8">
+
           <i data-lucide="upload" class="w-10 h-10"></i>
+
         </div>
 
         <h3 class="text-4xl font-black mb-4">
@@ -335,7 +346,7 @@
         </h3>
 
         <p class="text-gray-400 mb-8">
-          Supported: MP4 • MOV • AVI • MKV
+          MP4 • MOV • AVI • MKV
         </p>
 
         <input
@@ -354,30 +365,78 @@
 
       </div>
 
-      <!-- VIDEO PREVIEW -->
+      <!-- RESULTS -->
       <div id="videoSection" class="hidden mt-14">
 
+        <!-- STATUS -->
+        <div class="glass rounded-3xl p-6 mb-10 status-glow">
+
+          <div class="flex items-center justify-between mb-4">
+
+            <div>
+
+              <h2 class="text-2xl font-bold mb-2">
+                AI Enhancement Progress
+              </h2>
+
+              <p class="text-gray-400">
+                Neural reconstruction and detail recovery in progress
+              </p>
+
+            </div>
+
+            <div class="text-right">
+
+              <h2
+                id="progressText"
+                class="text-4xl font-black gradient-text"
+              >
+                0%
+              </h2>
+
+              <p class="text-gray-400 text-sm">
+                Processing...
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="w-full h-5 rounded-full bg-black/40 overflow-hidden">
+
+            <div
+              id="progressBar"
+              class="h-5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all duration-500"
+            ></div>
+
+          </div>
+
+        </div>
+
+        <!-- BEFORE AFTER -->
         <div class="grid lg:grid-cols-2 gap-10">
 
           <!-- BEFORE -->
           <div>
 
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between mb-5">
+
               <h3 class="text-2xl font-bold">
                 Original Video
               </h3>
 
-              <span class="px-4 py-2 rounded-full bg-gray-800 text-xs">
+              <div class="px-4 py-2 rounded-full bg-gray-800 text-xs font-bold">
                 BEFORE
-              </span>
+              </div>
+
             </div>
 
-            <div class="relative rounded-[30px] overflow-hidden glass">
+            <div class="glass rounded-[35px] overflow-hidden relative">
 
               <video
                 id="beforeVideo"
                 controls
-                class="w-full h-[420px] object-cover blur-[2px] brightness-75"
+                class="before-video w-full h-[500px] object-cover"
               ></video>
 
             </div>
@@ -387,125 +446,102 @@
           <!-- AFTER -->
           <div>
 
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between mb-5">
+
               <h3 class="text-2xl font-bold">
                 AI Enhanced Result
               </h3>
 
-              <span class="px-4 py-2 rounded-full bg-cyan-400 text-black text-xs font-bold">
-                AFTER
-              </span>
-            </div>
-
-            <div class="relative rounded-[30px] overflow-hidden glass">
-
-              <!-- ENHANCED VIDEO -->
-              <video
-                id="afterVideo"
-                controls
-                class="w-full h-[420px] object-cover brightness-110 contrast-125 saturate-125"
-              ></video>
-
-              <!-- SCAN -->
-              <div id="scanEffect" class="scan-line hidden"></div>
-
-              <!-- BODY DETECTION -->
-              <div id="bodyBox" class="body-box w-44 h-72 top-[70px] left-[140px] hidden"></div>
-
-              <!-- FACE DETECTION -->
-              <div id="faceBox" class="face-box w-28 h-28 top-[90px] left-[175px] hidden"></div>
-
-              <!-- FREEZE -->
-              <div id="freezeOverlay" class="freeze-overlay">
-
-                <h2 class="text-4xl font-black mb-4 gradient-text">
-                  TARGET LOCKED
-                </h2>
-
-                <p class="text-gray-300 mb-6">
-                  AI paused frame for review assistance
-                </p>
-
-                <div class="flex gap-4">
-
-                  <button class="glow-btn px-6 py-3 rounded-xl font-bold">
-                    Capture Snapshot
-                  </button>
-
-                  <button class="glass px-6 py-3 rounded-xl">
-                    Zoom Face
-                  </button>
-
-                </div>
-
+              <div class="px-4 py-2 rounded-full bg-cyan-400 text-black text-xs font-black">
+                ENHANCED
               </div>
 
             </div>
 
+            <div class="glass rounded-[35px] overflow-hidden relative">
+
+              <!-- VIDEO -->
+              <video
+                id="afterVideo"
+                controls
+                class="enhanced-video w-full h-[500px] object-cover"
+              ></video>
+
+              <!-- SCAN -->
+              <div
+                id="scanEffect"
+                class="scan-line hidden"
+              ></div>
+
+              <!-- BODY -->
+              <div
+                id="bodyBox"
+                class="body-box hidden w-48 h-80 top-[70px] left-[150px]"
+              ></div>
+
+              <!-- FACE -->
+              <div
+                id="faceBox"
+                class="face-box hidden w-32 h-32 top-[90px] left-[190px]"
+              ></div>
+
+            </div>
+
           </div>
 
         </div>
 
-        <!-- AI STATUS -->
+        <!-- RESULT STATUS -->
         <div class="grid md:grid-cols-4 gap-6 mt-12">
 
           <div class="glass rounded-3xl p-6">
+
             <p class="text-gray-400 text-sm mb-2">
               Face Clarity
             </p>
+
             <h2 class="text-4xl font-black text-cyan-400">
-              94%
+              96%
             </h2>
+
           </div>
 
           <div class="glass rounded-3xl p-6">
+
             <p class="text-gray-400 text-sm mb-2">
               Body Detection
             </p>
+
             <h2 class="text-4xl font-black text-purple-400">
               ACTIVE
             </h2>
+
           </div>
 
           <div class="glass rounded-3xl p-6">
+
             <p class="text-gray-400 text-sm mb-2">
-              AI Scan
+              Resolution
             </p>
+
             <h2 class="text-4xl font-black text-blue-400">
-              LIVE
+              4K
             </h2>
+
           </div>
 
           <div class="glass rounded-3xl p-6">
+
             <p class="text-gray-400 text-sm mb-2">
-              Frame Lock
+              AI Status
             </p>
-            <h2 class="text-4xl font-black text-green-400">
-              READY
+
+            <h2
+              id="aiStatus"
+              class="text-4xl font-black text-green-400"
+            >
+              SCANNING
             </h2>
-          </div>
-
-        </div>
-
-        <!-- PROGRESS -->
-        <div class="mt-12">
-
-          <div class="flex justify-between mb-3">
-            <span class="text-gray-300">
-              AI Enhancement Progress
-            </span>
-
-            <span id="progressText">
-              0%
-            </span>
-          </div>
-
-          <div class="w-full h-5 bg-black/40 rounded-full overflow-hidden">
-
-            <div
-              id="progressBar"
-              class="h-5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all duration-500"
-            ></div>
 
           </div>
 
@@ -519,7 +555,7 @@
 
 </section>
 
-<!-- BEFORE AFTER COMPARISON -->
+<!-- COMPARISON -->
 <section class="py-28 px-6">
 
   <div class="max-w-6xl mx-auto">
@@ -527,16 +563,16 @@
     <div class="text-center mb-16">
 
       <h2 class="text-5xl font-black mb-5">
-        AI Comparison Viewer
+        Before & After Viewer
       </h2>
 
       <p class="text-gray-400">
-        Compare original footage with enhanced reconstruction.
+        Visual comparison between blurry footage and AI-enhanced result.
       </p>
 
     </div>
 
-    <div class="relative rounded-[40px] overflow-hidden h-[550px] glass">
+    <div class="glass rounded-[40px] overflow-hidden relative h-[550px]">
 
       <!-- AFTER -->
       <img
@@ -549,20 +585,12 @@
 
         <img
           src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop&blur=100"
-          class="w-full h-full object-cover blur-[3px] brightness-75"
+          class="w-full h-full object-cover blur-[4px] brightness-75"
         >
 
       </div>
 
       <div class="comparison-divider"></div>
-
-      <div class="before-label">
-        BEFORE
-      </div>
-
-      <div class="after-label">
-        AI ENHANCED
-      </div>
 
     </div>
 
@@ -578,20 +606,22 @@
     <div>
 
       <div class="flex items-center gap-3 mb-5">
+
         <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500"></div>
 
         <h2 class="text-3xl font-black gradient-text">
           VISION-X AI
         </h2>
+
       </div>
 
       <p class="text-gray-400 max-w-md">
-        Premium AI-powered video enhancement platform designed for professional review workflows and visual enhancement assistance.
+        Premium AI-powered video enhancement platform with futuristic neural enhancement technology.
       </p>
 
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-10 text-sm">
+    <div class="grid grid-cols-3 gap-10 text-sm">
 
       <div>
         <h3 class="font-bold mb-4">
@@ -612,7 +642,7 @@
 
         <ul class="space-y-3 text-gray-400">
           <li>Encryption</li>
-          <li>Cloud Protection</li>
+          <li>Cloud Security</li>
           <li>Privacy</li>
         </ul>
       </div>
@@ -623,8 +653,8 @@
         </h3>
 
         <ul class="space-y-3 text-gray-400">
-          <li>About</li>
           <li>Support</li>
+          <li>About</li>
           <li>Contact</li>
         </ul>
       </div>
@@ -640,7 +670,7 @@
   lucide.createIcons();
 
   // PARTICLES
-  for(let i=0;i<60;i++){
+  for(let i=0;i<70;i++){
 
     let particle=document.createElement('div');
 
@@ -652,7 +682,7 @@
     particle.style.left=Math.random()*100+'%';
 
     particle.style.animationDuration=
-    (Math.random()*12+6)+'s';
+    (Math.random()*10+6)+'s';
 
     document.getElementById('particles').appendChild(particle);
 
@@ -666,7 +696,7 @@
   });
 
   gsap.from("h1",{
-    y:50,
+    y:60,
     opacity:0,
     duration:1.2
   });
@@ -674,12 +704,13 @@
   gsap.from(".glass",{
     opacity:0,
     y:30,
-    stagger:.1,
+    stagger:.08,
     duration:1
   });
 
-  // VIDEO UPLOAD
-  const input=document.getElementById('videoInput');
+  // VIDEO
+  const input=
+  document.getElementById('videoInput');
 
   input.addEventListener('change',function(e){
 
@@ -687,9 +718,11 @@
 
     if(file){
 
-      const url=URL.createObjectURL(file);
+      const url=
+      URL.createObjectURL(file);
 
-      document.getElementById('videoSection')
+      document
+      .getElementById('videoSection')
       .classList.remove('hidden');
 
       const beforeVideo=
@@ -701,12 +734,16 @@
       beforeVideo.src=url;
       afterVideo.src=url;
 
+      beforeVideo.play();
+      afterVideo.play();
+
       simulateEnhancement();
 
     }
 
   });
 
+  // AI PROCESS
   function simulateEnhancement(){
 
     let progress=0;
@@ -726,26 +763,32 @@
     const body=
     document.getElementById('bodyBox');
 
-    const freeze=
-    document.getElementById('freezeOverlay');
+    const aiStatus=
+    document.getElementById('aiStatus');
+
+    const afterVideo=
+    document.getElementById('afterVideo');
 
     scan.classList.remove('hidden');
 
     const interval=setInterval(()=>{
 
-      progress+=5;
+      progress++;
 
-      bar.style.width=progress+'%';
+      bar.style.width=
+      progress+'%';
 
-      text.innerText=progress+'%';
+      text.innerText=
+      progress+'%';
 
-      if(progress>40){
+      // 10 seconds total
+      if(progress>=25){
 
         face.classList.remove('hidden');
 
       }
 
-      if(progress>65){
+      if(progress>=45){
 
         body.classList.remove('hidden');
 
@@ -757,13 +800,14 @@
 
         scan.classList.add('hidden');
 
-        freeze.classList.add('active');
+        aiStatus.innerText='COMPLETE';
 
-        document.getElementById('afterVideo').pause();
+        // FREEZE VIDEO RESULT
+        afterVideo.pause();
 
       }
 
-    },200);
+    },100);
 
   }
 
